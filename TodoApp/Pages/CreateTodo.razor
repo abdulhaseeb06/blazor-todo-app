@@ -1,0 +1,41 @@
+﻿@page "/create-todo"
+@using TodoApp.Models.Todos
+@inject ITodoService _todoService
+@inject NavigationManager _nav
+
+<Validations @ref="validations" Mode="ValidationMode.Manual" Model="@createTodoDto">
+    <Validation>
+        <Field Horizontal>
+            <FieldLabel ColumnSize="ColumnSize.Is2">Title</FieldLabel>
+            <FieldBody ColumnSize="ColumnSize.Is10">
+                <TextEdit Placeholder="Title..." @bind-Text="@createTodoDto.Title" />
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is2">Is Completed</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is10" Margin="Margin.IsAuto">
+            <Check TValue="bool" @bind-Checked="@createTodoDto.IsCompleted" />
+        </FieldBody>
+    </Field>
+    <Button Type="ButtonType.Button" @onclick=HandleSubmit Color="Color.Primary">Submit</Button>
+</Validations>
+
+@code {
+
+    private Validations validations;
+    private CreateTodoDto createTodoDto = new();
+
+    private async Task HandleSubmit()
+    {
+        if (await validations.ValidateAll())
+        {
+            _todoService.Create(new Todo
+                {
+                    Title = createTodoDto.Title,
+                    IsCompleted = createTodoDto.IsCompleted
+                });
+            _nav.NavigateTo("/");
+        }
+    }
+}

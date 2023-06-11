@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Personal\\BlazorProjects\\TodoApp\\TodoApp\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.TodoApp.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.TodoApp.props",
+      "PackagePath": "build\\TodoApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.TodoApp.props",
+      "PackagePath": "buildMultiTargeting\\TodoApp.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.TodoApp.props",
+      "PackagePath": "buildTransitive\\TodoApp.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

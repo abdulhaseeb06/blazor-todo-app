@@ -1,0 +1,21 @@
+﻿@inherits LayoutComponentBase
+
+<Layout>
+    <LayoutHeader Margin="Margin.Is4">
+        <Row>
+            <Column ColumnSize="ColumnSize.Is6.Is3.WithOffset">
+                <Header />
+            </Column>
+        </Row>
+    </LayoutHeader>
+    <LayoutContent>
+        <Row>
+            <Column ColumnSize="ColumnSize.Is6.Is3.WithOffset">
+                @Body
+            </Column>
+        </Row>
+    </LayoutContent>
+    <LayoutFooter>
+        <Footer />
+    </LayoutFooter>
+</Layout>

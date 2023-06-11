@@ -1,0 +1,46 @@
+﻿@page "/"
+@inject ITodoService _todoService
+
+<Table>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>Task</TableHeaderCell>
+            <TableHeaderCell>Status</TableHeaderCell>
+            <TableHeaderCell>Actions</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        @foreach (var item in todos)
+        {
+            <TableRow>
+                <TableRowCell>@item.Title</TableRowCell>
+                <TableRowCell>
+                    @{
+                        if (item.IsCompleted)
+                        {
+                            <Paragraph>Completed</Paragraph>
+                        }
+                        else
+                        {
+                            <Paragraph>Pending</Paragraph>
+                        }
+                    }
+                </TableRowCell>
+                <TableRowCell>
+                    <Button Color="Color.Danger">Delete</Button>
+                    <Button Color="Color.Primary">Update</Button>
+                </TableRowCell>
+            </TableRow>
+        }
+    </TableBody>
+</Table>
+
+@code {
+    List<Todo> todos = new List<Todo>();
+
+    protected async override Task OnInitializedAsync()
+    {
+        todos = await _todoService.GetAll();
+    }
+
+}

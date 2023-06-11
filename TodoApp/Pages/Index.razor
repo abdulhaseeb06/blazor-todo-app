@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject ITodoService _todoService
+@inject NavigationManager _nav
 
 <Table>
     <TableHeader>
@@ -12,7 +13,7 @@
     <TableBody>
         @foreach (var item in todos)
         {
-            <TableRow>
+            <TableRow @key="item">
                 <TableRowCell>@item.Title</TableRowCell>
                 <TableRowCell>
                     @{
@@ -27,8 +28,8 @@
                     }
                 </TableRowCell>
                 <TableRowCell>
-                    <Button Color="Color.Danger">Delete</Button>
-                    <Button Color="Color.Primary">Update</Button>
+                    <Button Type="ButtonType.Button" Color="Color.Primary" @onclick="() => NavigateToUpdatePage(item.Id)">Update</Button>
+                    <Button Type="ButtonType.Button" Color="Color.Danger" @onclick="() => DeleteTodo(item.Id)">Delete</Button>
                 </TableRowCell>
             </TableRow>
         }
@@ -41,6 +42,17 @@
     protected async override Task OnInitializedAsync()
     {
         todos = await _todoService.GetAll();
+    }
+
+    private void NavigateToUpdatePage(int id)
+    {
+        _nav.NavigateTo($"/update-todo/{id}");
+    }
+
+    private void DeleteTodo(int id)
+    {
+        todos.RemoveAll(x => x.Id == id);
+        _todoService.Delete(id);
     }
 
 }

@@ -1,0 +1,64 @@
+﻿@page "/update-todo/{TodoId:int}"
+@using TodoApp.Models.Todos
+@inject NavigationManager _nav
+@inject ITodoService _todoService
+
+<Validations @ref="validations" Mode="ValidationMode.Manual" Model="@updateTodoDto">
+    <Field Visibility="Visibility.Invisible">
+        <NumericEdit @bind-Text="@updateTodoDto.Id" Value="@updateTodoDto?.Id" />
+    </Field>
+    <Validation>
+        <Field Horizontal>
+            <FieldLabel ColumnSize="ColumnSize.Is2">Title</FieldLabel>
+            <FieldBody ColumnSize="ColumnSize.Is10">
+                <TextEdit Placeholder="Title..." @bind-Text="@updateTodoDto.Title" />
+            </FieldBody>
+        </Field>
+    </Validation>
+    <Field Horizontal>
+        <FieldLabel ColumnSize="ColumnSize.Is2">Is Completed</FieldLabel>
+        <FieldBody ColumnSize="ColumnSize.Is10" Margin="Margin.IsAuto">
+            <Check TValue="bool" @bind-Checked="@updateTodoDto.IsCompleted" />
+        </FieldBody>
+    </Field>
+    <Button Type="ButtonType.Button" @onclick=HandleSubmit Color="Color.Primary">Submit</Button>
+</Validations>
+
+
+@code {
+    [Parameter]
+    public int TodoId { get; set; }
+    private Todo? todo;
+    private Validations validations;
+    private UpdateTodoDto updateTodoDto = new();
+
+    protected async override Task OnInitializedAsync()
+    {
+        todo = await _todoService.Get(TodoId);
+        if (todo is null)
+            _nav.NavigateTo("/");
+        updateTodoDto.Id = todo.Id;
+        updateTodoDto.Title = todo.Title;
+        updateTodoDto.IsCompleted = todo.IsCompleted;
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (TodoId <= 0)
+            _nav.NavigateTo("/");
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (await validations.ValidateAll())
+        {
+            await _todoService.Update(TodoId, new Todo
+                {
+                    Title = updateTodoDto.Title,
+                    IsCompleted = updateTodoDto.IsCompleted
+                });
+            _nav.NavigateTo("/");
+        }
+    }
+
+}

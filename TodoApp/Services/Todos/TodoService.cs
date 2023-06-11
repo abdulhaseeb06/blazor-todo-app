@@ -26,6 +26,11 @@ namespace TodoApp.Services.Todos
             _dbContext.SaveChanges();
         }
 
+        public async Task<Todo?> Get(int id)
+        {
+            return await _dbContext.Todos.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<List<Todo>> GetAll()
         {
             return await _dbContext.Todos.ToListAsync();
